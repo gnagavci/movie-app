@@ -1,19 +1,13 @@
+import { useState } from "react";
+
 const Card = ({ title }) => {
+  const [hasLiked, setHasLiked] = useState(false);
+  // it makes sense for each Card component to have a different hasLiked state, so we track state in the component code
+
   return (
-    <div
-      style={{
-        border: "1px solid #4b5362",
-        padding: "20px",
-        margin: "10px",
-        backgrounColor: "#31363f",
-        borderRadius: "10px",
-        minHeight: "100px",
-      }}
-    >
-      {/* this is inline styling for React components,
-      the value have to be inputed as strings,
-      'background-color' => 'backgroundColor' */}
-      <h2>{title}</h2>;
+    <div className="card">
+      <h2>{title}</h2>
+      <button onClick={() => setHasLiked(true)}>Like</button>
     </div>
   );
 };
