@@ -2,6 +2,7 @@ import React from "react";
 import Search from "./components/Search";
 import { useState, useEffect } from "react";
 import Spinner from "./components/Spinner";
+import MovieCard from "./components/MovieCard";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -26,7 +27,6 @@ const App = () => {
   const fetchMovies = async () => {
     setIsLoading(true);
     try {
-
       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
       const response = await fetch(endpoint, API_OPTIONS);
@@ -48,8 +48,7 @@ const App = () => {
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Please try again later!");
-    }
-    finally{
+    } finally {
       setIsLoading(false);
     }
   };
@@ -75,15 +74,15 @@ const App = () => {
         <section className="all-movies">
           <h2 className="mt-[40px]">All movies</h2>
           {isLoading ? (
-            <Spinner/>
+            <Spinner />
           ) : errorMessage ? (
             <p className="text-red-500">{errorMessage}</p>
           ) : (
-             <ul>
+            <ul>
               {movieList.map((movie) => (
-                <p key={movie.id} className="text-white">{movie.title}</p>
+                <MovieCard key={movie.id} movie={movie} />
               ))}
-             </ul> 
+            </ul>
           )}
         </section>
       </div>
