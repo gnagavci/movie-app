@@ -26,6 +26,7 @@ const App = () => {
 
   const fetchMovies = async () => {
     setIsLoading(true);
+
     try {
       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
@@ -44,10 +45,16 @@ const App = () => {
       }
       console.log("This is data:");
       console.log(data);
+
       setMovieList(data.results || []);
     } catch (error) {
+
+
+
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Please try again later!");
+
+
     } finally {
       setIsLoading(false);
     }
@@ -73,11 +80,8 @@ const App = () => {
 
         <section className="all-movies">
           <h2 className="mt-[40px]">All movies</h2>
-          {isLoading ? (
-            <Spinner />
-          ) : errorMessage ? (
-            <p className="text-red-500">{errorMessage}</p>
-          ) : (
+          {isLoading ? (<Spinner />) : errorMessage ? ( <p className="text-red-500">{errorMessage}</p>) : 
+          (
             <ul>
               {movieList.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
