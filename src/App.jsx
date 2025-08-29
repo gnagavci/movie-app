@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
-import { client, updateSearchCount } from "./lib/appwrite";
+import { updateSearchCount } from "./lib/appwrite";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
@@ -28,7 +28,7 @@ const App = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   const fetchMovies = async (query = '') => {
-    client.ping();
+   // client.ping();
     setIsLoading(true);
     setErrorMessage("");
   
@@ -55,7 +55,13 @@ const App = () => {
   
       setMovieList(data.results || []);
 
-      updateSearchCount();
+      
+     if(query && data.results.length > 0){
+
+      await updateSearchCount(query, data.results[0]);
+
+     }
+
 
     } catch (error) {
   
