@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
-import { client } from "./lib/appwrite";
+import { client, updateSearchCount } from "./lib/appwrite";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
@@ -54,6 +54,9 @@ const App = () => {
       console.log(data);
   
       setMovieList(data.results || []);
+
+      updateSearchCount();
+
     } catch (error) {
   
   
