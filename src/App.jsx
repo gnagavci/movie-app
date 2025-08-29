@@ -77,7 +77,7 @@ const App = () => {
     }
   };
   
-  const loadTredingMovies = async () => {
+  const loadTrendingMovies = async () => {
 
     try {
       const movies = await getTrendingMovies();
@@ -96,10 +96,10 @@ const App = () => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
   
-  
+
   useEffect(() => {
     
-    getTrendingMovies();
+    loadTrendingMovies();
     
   }, [])
   
@@ -118,9 +118,24 @@ const App = () => {
           </h1>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
+        
+        {trendingMovies.length > 0 && (
+          <section className="trending">
+            <h2>Trending Movies</h2>
+
+            <ul>
+            {trendingMovies.map((movie, index) => (
+              <li key={movie.$id}>
+                  <p>{index+1}</p>
+                  <img src={movie.poster_url} alt={movie.title}/>
+              </li>
+            ))}
+            </ul>
+          </section> 
+        )}
 
         <section className="all-movies">
-          <h2 className="mt-[40px]">All movies</h2>
+          <h2>All movies</h2>
           {isLoading ? (<Spinner />) : errorMessage ? ( <p className="text-red-500">{errorMessage}</p>) : 
           (
             <ul>
