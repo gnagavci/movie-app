@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
-import { updateSearchCount } from "./lib/appwrite";
+import { getTrendingMovies, updateSearchCount } from "./lib/appwrite";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
@@ -26,9 +26,10 @@ const App = () => {
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
   const fetchMovies = async (query = '') => {
-   // client.ping();
+   
     setIsLoading(true);
     setErrorMessage("");
   
@@ -76,12 +77,31 @@ const App = () => {
     }
   };
   
-  
+  const loadTredingMovies = async () => {
+
+    try {
+      const movies = await getTrendingMovies();
+      
+      setTrendingMovies(movies);
+
+
+    } catch (error) {
+      console.error(`Error fetching trending movies: ${error}`);
+    }
+  }
+
   useDebounce(() => {setDebouncedSearchTerm(searchTerm)}, 500, [searchTerm]);  
   
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
+  
+  
+  useEffect(() => {
+    
+    getTrendingMovies();
+    
+  }, [])
   
   
 
